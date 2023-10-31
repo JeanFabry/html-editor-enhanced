@@ -11,8 +11,8 @@ class HtmlEditorExampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
+      //theme: ThemeData(),
+      //darkTheme: ThemeData.dark(),
       home: HtmlEditorExample(title: 'Flutter HTML Editor Example'),
     );
   }
