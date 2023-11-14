@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:html_editor_enhanced/utils/shims/dart_ui.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 /// small function to always check if mounted before running setState()
 void setState(
@@ -254,11 +255,15 @@ class _DropdownMenuItemButtonState<T>
         widget.constraints.maxHeight,
         widget.itemIndex,
       );
+
+      // if (widget.route.scrollController != null &&
+      //     widget.route.scrollController!.hasClients) {
       widget.route.scrollController!.animateTo(
         menuLimits.scrollOffset,
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 100),
       );
+      // }
     }
   }
 
