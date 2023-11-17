@@ -8,7 +8,7 @@ import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:html_editor_enhanced/utils/utils.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-import 'package:html_editor_enhanced/utils/shims/dart_ui.dart' as ui;
+import 'dart:ui_web' as ui;
 
 /// The HTML Editor widget itself, for web (uses IFrameElement)
 class HtmlEditorWidget extends StatefulWidget {
@@ -228,70 +228,70 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
         console.log('done');
       
         function handleMessage(e) {
-          if (e && e.data && e.data.includes("toIframe:")) {
+          if (e && e.data && e.data?.includes("toIframe:")) {
             var data = JSON.parse(e.data);
-            if (data["view"].includes("$createdViewId")) {
-              if (data["type"].includes("getText")) {
+            if (data["view"]?.includes("$createdViewId")) {
+              if (data["type"]?.includes("getText")) {
                 var str = \$('#summernote-2').summernote('code');
                 window.parent.postMessage(JSON.stringify({"type": "toDart: getText", "text": str}), "*");
               }
-              if (data["type"].includes("getHeight")) {
+              if (data["type"]?.includes("getHeight")) {
                 var height = document.body.scrollHeight;
                 window.parent.postMessage(JSON.stringify({"view": "$createdViewId", "type": "toDart: htmlHeight", "height": height}), "*");
               }
-              if (data["type"].includes("setInputType")) {
+              if (data["type"]?.includes("setInputType")) {
                 document.getElementsByClassName('note-editable')[0].setAttribute('inputmode', '${describeEnum(widget.htmlEditorOptions.inputType)}');
               }
-              if (data["type"].includes("setText")) {
+              if (data["type"]?.includes("setText")) {
                 \$('#summernote-2').summernote('code', data["text"]);
               }
-              if (data["type"].includes("setFullScreen")) {
+              if (data["type"]?.includes("setFullScreen")) {
                 \$("#summernote-2").summernote("fullscreen.toggle");
               }
-              if (data["type"].includes("setFocus")) {
+              if (data["type"]?.includes("setFocus")) {
                 \$('#summernote-2').summernote('focus');
               }
-              if (data["type"].includes("clear")) {
+              if (data["type"]?.includes("clear")) {
                 \$('#summernote-2').summernote('reset');
               }
-              if (data["type"].includes("setHint")) {
+              if (data["type"]?.includes("setHint")) {
                 \$(".note-placeholder").html(data["text"]);
               }
-              if (data["type"].includes("toggleCodeview")) {
+              if (data["type"]?.includes("toggleCodeview")) {
                 \$('#summernote-2').summernote('codeview.toggle');
               }
-              if (data["type"].includes("disable")) {
+              if (data["type"]?.includes("disable")) {
                 \$('#summernote-2').summernote('disable');
               }
-              if (data["type"].includes("enable")) {
+              if (data["type"]?.includes("enable")) {
                 \$('#summernote-2').summernote('enable');
               }
-              if (data["type"].includes("undo")) {
+              if (data["type"]?.includes("undo")) {
                 \$('#summernote-2').summernote('undo');
               }
-              if (data["type"].includes("redo")) {
+              if (data["type"]?.includes("redo")) {
                 \$('#summernote-2').summernote('redo');
               }
-              if (data["type"].includes("insertText")) {
+              if (data["type"]?.includes("insertText")) {
                 \$('#summernote-2').summernote('insertText', data["text"]);
               }
-              if (data["type"].includes("insertHtml")) {
+              if (data["type"]?.includes("insertHtml")) {
                 \$('#summernote-2').summernote('pasteHTML', data["html"]);
               }
-              if (data["type"].includes("insertNetworkImage")) {
+              if (data["type"]?.includes("insertNetworkImage")) {
                 \$('#summernote-2').summernote('insertImage', data["url"], data["filename"]);
               }
-              if (data["type"].includes("insertLink")) {
+              if (data["type"]?.includes("insertLink")) {
                 \$('#summernote-2').summernote('createLink', {
                   text: data["text"],
                   url: data["url"],
                   isNewWindow: data["isNewWindow"]
                 });
               }
-              if (data["type"].includes("reload")) {
+              if (data["type"]?.includes("reload")) {
                 window.location.reload();
               }
-              if (data["type"].includes("addNotification")) {
+              if (data["type"]?.includes("addNotification")) {
                 if (data["alertType"] === null) {
                   \$('.note-status-output').html(
                     data["html"]
@@ -304,25 +304,25 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
                   );
                 }
               }
-              if (data["type"].includes("removeNotification")) {
+              if (data["type"]?.includes("removeNotification")) {
                 \$('.note-status-output').empty();
               }
-              if (data["type"].includes("execCommand")) {
+              if (data["type"]?.includes("execCommand")) {
                 if (data["argument"] === null) {
                   document.execCommand(data["command"], false);
                 } else {
                   document.execCommand(data["command"], false, data["argument"]);
                 }
               }
-              if (data["type"].includes("changeListStyle")) {
+              if (data["type"]?.includes("changeListStyle")) {
                 var \$focusNode = \$(window.getSelection().focusNode);
                 var \$parentList = \$focusNode.closest("div.note-editable ol, div.note-editable ul");
                 \$parentList.css("list-style-type", data["changed"]);
               }
-              if (data["type"].includes("changeLineHeight")) {
+              if (data["type"]?.includes("changeLineHeight")) {
                 \$('#summernote-2').summernote('lineHeight', data["changed"]);
               }
-              if (data["type"].includes("changeTextDirection")) {
+              if (data["type"]?.includes("changeTextDirection")) {
                 var s=document.getSelection();			
                 if(s==''){
                     document.execCommand("insertHTML", false, "<p dir='"+data['direction']+"'></p>");
@@ -330,7 +330,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
                     document.execCommand("insertHTML", false, "<div dir='"+data['direction']+"'>"+ document.getSelection()+"</div>");
                 }
               }
-              if (data["type"].includes("changeCase")) {
+              if (data["type"]?.includes("changeCase")) {
                 var selected = \$('#summernote-2').summernote('createRange');
                   if(selected.toString()){
                       var texto;
@@ -359,10 +359,10 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
                       }
                   }
               }
-              if (data["type"].includes("insertTable")) {
+              if (data["type"]?.includes("insertTable")) {
                 \$('#summernote-2').summernote('insertTable', data["dimensions"]);
               }
-              if (data["type"].includes("getSelectedTextHtml")) {
+              if (data["type"]?.includes("getSelectedTextHtml")) {
                 var range = window.getSelection().getRangeAt(0);
                 var content = range.cloneContents();
                 var span = document.createElement('span');
@@ -371,7 +371,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
                 var htmlContent = span.innerHTML;
                 
                 window.parent.postMessage(JSON.stringify({"type": "toDart: getSelectedText", "text": htmlContent}), "*");
-              } else if (data["type"].includes("getSelectedText")) {
+              } else if (data["type"]?.includes("getSelectedText")) {
                 window.parent.postMessage(JSON.stringify({"type": "toDart: getSelectedText", "text": window.getSelection().toString()}), "*");
               }
               $userScripts
